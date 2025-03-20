@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Laptop Sales</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/wishlist.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="images/laptop-icon.svg" alt="TechLaptops Logo" class="nav-logo">
+            <span>Laptop Sales</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="laptops.html">Laptops</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            <button id="wishlistBtn" class="icon-btn">
+                <img src="images/heart.svg" alt="Wishlist">
+                <button id="wishlistBtn" class="icon-btn"></button>
+                <script>
+                    document.getElementById("wishlistBtn").addEventListener("click", function() {
+                    window.location.href = "wishlist.html";
+                    });
+                </script>
+            </button>
+            <button id="cartBtn" class="icon-btn">
+                <img src="images/cart.svg" alt="Cart">
+                <button id="cartBtn" class="icon-btn"></button>
+                <script>
+                document.getElementById("cartBtn").addEventListener("click", function() {
+                    window.location.href = "cart.html";
+                });
+                </script>
+            </button>
+        </div>
+    </nav>
+
+    <main class="wishlist-page">
+        <div class="container">
+            <div class="wishlist-header">
+                <h1>My Wishlist</h1>
+                <span id="wishlistItemCount" class="wishlist-count">0 items</span>
+            </div>
+            <div id="wishlistGrid" class="wishlist-grid"></div>
+            <div id="emptyWishlist" class="empty-state hidden">
+                <img src="images/heart.svg" alt="Empty Wishlist" class="empty-icon">
+                <h2>Your wishlist is empty</h2>
+                <p>Save your favorite laptops for later!</p>
+                <a href="laptops.html" class="cta-button">Browse Laptops</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Laptop Sales. All rights reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/wishlist.js"></script>
+</body>
+</html>

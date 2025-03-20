@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Sales</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/laptops.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="images/laptop-icon.svg" alt="TechLaptops Logo" class="nav-logo">
+            <span>Laptop Sales</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="laptops.html">Laptops</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            <button id="wishlistBtn" class="icon-btn">
+                <img src="images/heart.svg" alt="Wishlist">
+                <span class="badge" id="wishlistCount">0</span>
+            </button>
+            <button id="cartBtn" class="icon-btn">
+                <img src="images/cart.svg" alt="Cart">
+                <span class="badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Premium Laptops for Everyone</h1>
+                <p>Discover the perfect balance of power and portability</p>
+                <a href="laptops.html" class="cta-button">Shop Now</a>
+            </div>
+        </section>
+
+        <section id="laptops" class="featured-laptops">
+            <h2>Featured Laptops</h2>
+            <div class="laptop-grid" id="laptopGrid"></div>
+        </section>
+
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Laptop Sales. All rights reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const laptopGrid = document.getElementById('laptopGrid');
+            const wishlistItems = document.getElementById('wishlistItems');
+            const cartItems = document.getElementById('cartItems');
+            const maxLaptopsToShow = 9;
+
+            // Load wishlist and cart data from localStorage
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Update the wishlist and cart counts in the navbar
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+            document.getElementById('cartCount').textContent = cart.length;
+
+            // Function to create a laptop card
+            function createLaptopCard(laptop) {
+                const card = document.createElement('div');
+                card.className = 'laptop-card';
+                card.innerHTML = `
+                    <img src="${laptop.image}" alt="${laptop.name}" class="laptop-image">
+                    <div class="laptop-info">
+                        <h3 class="laptop-name">${laptop.name}</h3>
+                        <p class="laptop-description">${laptop.description}</p>
+                        <div class="laptop-price">₹${laptop.price}</div>
+                        <div class="laptop-actions">
+                            <button class="action-btn wishlist-btn" data-id="${laptop.id}">
+                                <img src="images/heart.svg" alt="Add to wishlist">
+                            </button>
+                            <button class="action-btn cart-btn" data-id="${laptop.id}">
+                                <img src="images/cart.svg" alt="Add to cart">
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+
+            // Add to wishlist
+            function addToWishlist(id) {
+                if (!wishlist.includes(id)) {
+                    wishlist.push(id);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    document.getElementById('wishlistCount').textContent = wishlist.length;
+                    displayWishlist();
+                }
+            }
+
+            // Add to cart
+            function addToCart(id) {
+                if (!cart.includes(id)) {
+                    cart.push(id);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    document.getElementById('cartCount').textContent = cart.length;
+                    displayCart();
+                }
+            }
+
+            // Event listener for adding to wishlist or cart
+            laptopGrid.addEventListener('click', (event) => {
+                if (event.target.closest('.wishlist-btn')) {
+                    const id = parseInt(event.target.closest('.wishlist-btn').dataset.id);
+                    addToWishlist(id);
+                }
+                if (event.target.closest('.cart-btn')) {
+                    const id = parseInt(event.target.closest('.cart-btn').dataset.id);
+                    addToCart(id);
+                }
+            });
+
+            // Display featured laptops (first 9)
+            laptops.slice(0, maxLaptopsToShow).forEach(laptop => {
+                laptopGrid.appendChild(createLaptopCard(laptop));
+            });
+
+            
+        });
+    </script>
+    <div id="cartPopup" class="popup hidden">
+        <div class="popup-content">
+                <span class="close-btn" id="closeCartPopup">&times;</span>
+                <h2>Shopping Cart</h2>
+                <div id="cartItemsContainer">
+                    <!-- Cart items will be dynamically injected here -->
+                </div>
+                <div class="total">
+                    Total: <span id="cartTotal">$0</span>
+                </div>
+                <button id="checkoutBtn">Checkout</button>
+        </div>
+        </div>
+</body>
+</html>
